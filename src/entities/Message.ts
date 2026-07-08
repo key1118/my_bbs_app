@@ -2,7 +2,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, Unique, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
 import { User } from "./User";
 
-@Entity()
+@Entity('message')
 @Unique(["id"]) // ★超重要: 同じユーザーが同じ投稿に2回いいねできないようにする（複合ユニーク）
 export class Message {
     @PrimaryGeneratedColumn()

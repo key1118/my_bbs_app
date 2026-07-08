@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Unique } from "typeo
 import { User } from "./User";
 import { Post } from "./Post";
 
-@Entity()
+@Entity('like')
 @Unique(["userId", "postId"]) // ★超重要: 同じユーザーが同じ投稿に2回いいねできないようにする（複合ユニーク）
 export class Like {
     @PrimaryGeneratedColumn()

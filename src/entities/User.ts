@@ -58,22 +58,22 @@ export class User {
   @OneToMany('post', (post: Post) => post.user)
   posts!: Post[];
 
-  @OneToMany('Follow', (follow: Follow) => follow.following) // 🌟 クラス名ではなく文字列の 'Follow' にする
+  @OneToMany('follow', (follow: Follow) => follow.following) // 🌟 クラス名ではなく文字列の 'Follow' にする
   followers!: Follow[];
 
-  @OneToMany('Follow', (follow: Follow) => follow.follower) // 🌟 同上
+  @OneToMany('follow', (follow: Follow) => follow.follower) // 🌟 同上
   following!: Follow[];
 
   // Userクラスの中に以下を追加します
 
   // 自分が送信したメッセージ一覧
-  @OneToMany('Message', (message: Message) => message.sender)
+  @OneToMany('message', (message: Message) => message.sender)
   sentMessages!: Message[]; // ※Message型をインポートして型指定してください
 
   // 自分が受信したメッセージ一覧
-  @OneToMany('Message', (message: Message) => message.receiver)
+  @OneToMany('message', (message: Message) => message.receiver)
   receivedMessages!: Message[];
 
-  @OneToMany('Reply', (reply: Reply) => reply.post)
+  @OneToMany('reply', (reply: Reply) => reply.post)
   replies!: Reply[];
 }

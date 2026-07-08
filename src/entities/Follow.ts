@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, Unique } from 'typeorm';
 import type { User } from './User'; // typeインポートで型だけ安全に使う
 
-@Entity('follows')
+@Entity('follow')
 @Unique(['followerId', 'followingId'])
 export class Follow {
     @PrimaryGeneratedColumn()
