@@ -51,10 +51,13 @@ export const getDataSource = async (): Promise<DataSource> => {
   try {
     initializedDataSource = await appDataSource.initialize();
   } catch (error) {
+    // 💡 エラー内容を「db_error.txt」というファイルに強制保存する
+    import('fs').then((fs) => {
+      fs.writeFileSync('db_error.txt', String(error));
+    });
     console.error("❌ DBの初期化に失敗しました:", error);
-    throw error; // エラーを再スローしてビルドを落とす
-  }
-} else {
+    throw error;
+  }} else {
     initializedDataSource = appDataSource;
   }
 
