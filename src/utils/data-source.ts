@@ -48,8 +48,13 @@ export const getDataSource = async (): Promise<DataSource> => {
 
   // まだ初期化されていない、または初期化中の場合は初期化する
   if (!appDataSource.isInitialized) {
+  try {
     initializedDataSource = await appDataSource.initialize();
-  } else {
+  } catch (error) {
+    console.error("❌ DBの初期化に失敗しました:", error);
+    throw error; // エラーを再スローしてビルドを落とす
+  }
+} else {
     initializedDataSource = appDataSource;
   }
 
