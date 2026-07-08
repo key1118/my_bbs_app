@@ -3,7 +3,6 @@ import { isMutualFollow } from '@/actions/follow';
 import { getUsers } from '@/actions/users';
 import Link from 'next/link';
 import Image from 'next/image';
-export const dynamic = 'force-dynamic';
 
 
 
