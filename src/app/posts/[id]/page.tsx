@@ -7,14 +7,14 @@ export default function PostDetailPage({params}: {params: Promise<{id: string}>}
   return (
     <div className='container' style={{ maxWidth: '800px', marginTop: '30px' }}>
       <Link
-        href='/'
+        href='/posts'
         style={{
           display: 'inline-block',
           marginBottom: '20px',
           color: '#0070f3',
         }}
       >
-        &larr; 一覧に戻る
+        &larr; 投稿一覧に戻る
       </Link>
       <Suspense fallback={<Loader />}>
         <PostDetail params={params}/>

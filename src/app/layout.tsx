@@ -23,8 +23,8 @@ export default function RootLayout({
               }}
             >
               <h1>
-                <span style={{ fontSize: '24px', fontWeight: 'bold' }}>
-                  BBS App
+                <span style={{ textAlign: 'center', fontSize: '24px', fontWeight: 'bold' }}>
+                  Smile
                 </span>
               </h1>
             </div>

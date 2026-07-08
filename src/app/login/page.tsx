@@ -15,9 +15,9 @@ export default function LoginPage() {
     }
   }
   return (
-    <div className='container' style={{ maxWidth: '400px', marginTop: '50px' }}>
+    <div className='container' style={{ maxWidth: '400px', marginTop: '50px'}}>
       <div className='card'>
-        <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>ログイン</h2>
+        <h2 style={{color: "#362727", marginBottom: '20px', textAlign: 'center' }}>ログイン</h2>
         <form action={handleSubmit}>
           <div className='form-group'>
             <label className='form-label' htmlFor='email'>
@@ -54,7 +54,7 @@ export default function LoginPage() {
             ログイン
           </button>
         </form>
-        <p style={{ textAlign: 'center', fontSize: '14px' }}>
+        <p style={{textAlign: 'center', fontSize: '14px' }}>
           アカウントをお持ちでないですか？
           <br />
           <Link href='/signup' style={{ color: '#0070f3' }}>

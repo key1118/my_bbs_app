@@ -66,14 +66,14 @@ export default function SignupPage() {
           <button
             type='submit'
             className='btn'
-            style={{ width: '100%', marginBottom: '15px' }}
+            style={{color: "#fff", width: '100%', marginBottom: '15px' }}
           >
             登録する
           </button>
         </form>
-        <p style={{ textAlign: 'center', fontSize: '14px' }}>
+        <p style={{color: "#333333d4", textAlign: 'center', fontSize: '14px' }}>
           すでにアカウントをお持ちですか？ <br />
-          <Link href='/login' style={{ color: '#0070f3' }}>
+          <Link href='/login' style={{color: '#0070f3'}}>
             ログインはこちら
           </Link>
         </p>
