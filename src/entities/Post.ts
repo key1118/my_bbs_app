@@ -38,7 +38,7 @@ export class Post {
   @Column()
   userId!: number;
 
-  @OneToMany('Reply', (reply: Reply) => reply.post)
+  @OneToMany('reply', (reply: Reply) => reply.post)
   replies!: Reply[];
 
 }

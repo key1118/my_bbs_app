@@ -1,1 +1,1 @@
-Entity metadata for e#followers was not found. Check if you specified a correct entity object and if it's connected in the connection options.
+Entity metadata for f#replies was not found. Check if you specified a correct entity object and if it's connected in the connection options.
