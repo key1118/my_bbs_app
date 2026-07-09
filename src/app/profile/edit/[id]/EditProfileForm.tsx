@@ -5,7 +5,7 @@ import Loader from "@/app/Loader";
 import { Post } from "@/entities/Post";
 import Image from "next/image";
 import Link from "next/link";
-import { use, useState, useEffect } from "react"; // 💡 useRef を追加
+import { use, useState, useEffect, useTransition } from "react"; // 💡 useRef を追加
 
 interface User {
     id?: number;
@@ -27,7 +27,7 @@ interface User {
 
 export default function EditProfileForm({ params }: { params: Promise<{ id: string }> }) {
     const [error, setError] = useState<string | null>(null);
-    const [isPending, setIsPending] = useState(false);
+    const [isPending, startTransition] = useTransition();;
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState<User | null>(null);
 
@@ -53,12 +53,12 @@ export default function EditProfileForm({ params }: { params: Promise<{ id: stri
 
     const handleSubmit = async (formData: FormData) => {
         setError(null);
-        setIsPending(true);
-        const result = await editUser(formData, userId);
-        if (result && result.error) {
-            setError(result.error);
-        }
-        setIsPending(false);
+        startTransition(async () => {
+            const result = await editUser(formData, userId);
+            if (result && result.error) {
+                setError(result.error);
+            }
+        });
     }
 
     // 💡 ファイルが選択された時にプレビューを表示する処理
@@ -92,7 +92,7 @@ export default function EditProfileForm({ params }: { params: Promise<{ id: stri
                 &larr; 戻る
             </Link>
             <div className='card'>
-                <h2 style={{ marginBottom: '20px', textAlign: 'center', color: "#fff"}}>
+                <h2 style={{ marginBottom: '20px', textAlign: 'center', color: "#fff" }}>
                     プロフィール編集
                 </h2>
                 <form action={handleSubmit} key={user?.id || 'new'}>
@@ -216,14 +216,16 @@ export default function EditProfileForm({ params }: { params: Promise<{ id: stri
                     </div>
 
                     {error && <p className='error-message'>{error}</p>}
-                    <button
-                        type='submit'
-                        className='btn'
-                        style={{ width: '100%', marginBottom: '15px' }}
-                        disabled={isPending}
-                    >
-                        {isPending ? 'アップロード＆登録中...' : '編集する'}
-                    </button>
+                    {isPending ? <Loader /> :
+                        <button
+                            type='submit'
+                            className='btn'
+                            style={{ width: '100%', marginBottom: '15px' }}
+                            disabled={isPending}
+                        >
+                            編集する
+                        </button>
+                    }
                 </form>
             </div>
         </div>

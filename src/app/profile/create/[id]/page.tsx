@@ -1,26 +1,27 @@
 "use client"
 
 import { setProfile } from "@/actions/auth";
-import { useState } from "react";
+import Loader from "@/app/Loader";
+import { useState, useTransition } from "react";
 
-export default function CreateProfile({params}: {params: Promise<{id: string}>}) {
+export default function CreateProfile({ params }: { params: Promise<{ id: string }> }) {
     const [error, setError] = useState<string | null>(null);
-    const [isPending, setIsPending] = useState(false);
+    const [isPending, startTransition] = useTransition();
 
-    const handleSubmit = async(formData: FormData) => {
+    const handleSubmit = async (formData: FormData) => {
         setError(null);
-        setIsPending(true);
-        const { id } = await params;
-        const result = await setProfile(formData, id);
-        if (result && result.error) {
-            setError(result.error);
-        }
-        setIsPending(false);
+        startTransition(async () => {
+            const { id } = await params;
+            const result = await setProfile(formData, id);
+            if (result && result.error) {
+                setError(result.error);
+            }
+        });
     }
     return (
         <div className='container' style={{ maxWidth: '400px', marginTop: '50px' }}>
             <div className='card'>
-                <h2 style={{color: "#fff", marginBottom: '20px', textAlign: 'center' }}>
+                <h2 style={{ color: "#fff", marginBottom: '20px', textAlign: 'center' }}>
                     プロフィール作成
                 </h2>
                 <form action={handleSubmit}>
@@ -118,17 +119,17 @@ export default function CreateProfile({params}: {params: Promise<{id: string}>})
                             name='bio'
                             className='form-input' // 必要に応じて高さをCSS（rowsなど）で調整してください
                             placeholder='趣味や特技、一言など自由にどうぞ！'
-                            rows={10} 
+                            rows={10}
                         />
                     </div>
                     {error && <p className='error-message'>{error}</p>}
-                    <button
+                    {isPending ? <Loader /> : <button
                         type='submit'
                         className='btn-edit'
                         style={{ width: '100%', marginBottom: '15px' }}
-                    >
-                        {isPending ? 'アップロード＆登録中...' : '登録する'}
+                    >登録する
                     </button>
+                    }
                 </form>
             </div>
         </div>

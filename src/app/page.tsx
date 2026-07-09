@@ -27,7 +27,7 @@ export default async function Home() {
                 padding: "0 10px",
                 boxSizing: "border-box"
             }}>
-                私のポートフォリオ
+                ケイのポートフォリオ
             </h1>
             <div style={{
                 marginTop: '20px',

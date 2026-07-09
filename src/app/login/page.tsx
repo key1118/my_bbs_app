@@ -2,22 +2,27 @@
 
 import { login } from '@/actions/auth';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
+import Loader from '../Loader';
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async (formData: FormData) => {
     setError(null);
-    const result = await login(formData);
-    if(result && result.error) {
-      setError(result.error);
-    }
+   // 3. startTransitionの中で非同期処理を実行する
+    startTransition(async () => {
+      const result = await login(formData);
+      if (result && result.error) {
+        setError(result.error);
+      }
+    });
   }
   return (
-    <div className='container' style={{ maxWidth: '400px', marginTop: '50px'}}>
+    <div className='container' style={{ maxWidth: '400px', marginTop: '50px' }}>
       <div className='card'>
-        <h2 style={{color: "#362727", marginBottom: '20px', textAlign: 'center' }}>ログイン</h2>
+        <h2 style={{ color: "#362727", marginBottom: '20px', textAlign: 'center' }}>ログイン</h2>
         <form action={handleSubmit}>
           <div className='form-group'>
             <label className='form-label' htmlFor='email'>
@@ -46,15 +51,17 @@ export default function LoginPage() {
             />
           </div>
           {error && <p className='error-message'>{error}</p>}
-          <button
-            type='submit'
-            className='btn'
-            style={{ width: '100%', marginBottom: '15px' }}
-          >
-            ログイン
-          </button>
+          {isPending ? <Loader /> :
+            <button
+              type='submit'
+              className='btn'
+              style={{ width: '100%', marginBottom: '15px' }}
+            >
+              ログイン
+            </button>
+          }
         </form>
-        <p style={{textAlign: 'center', fontSize: '14px' }}>
+        <p style={{ textAlign: 'center', fontSize: '14px' }}>
           アカウントをお持ちでないですか？
           <br />
           <Link href='/signup' style={{ color: '#0070f3' }}>
