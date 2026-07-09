@@ -3,10 +3,19 @@ import { isMutualFollow } from '@/actions/follow';
 import { getUsers } from '@/actions/users';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Suspense } from 'react';
+import Loader from './Loader';
 
 
+export default function Home() {
+    return (
+        <Suspense fallback={<Loader />}>
+            <HomeContent />
+        </Suspense>
+    )
+}
 
-export default async function Home() {
+export async function HomeContent() {
     const users = await getUsers();
 
     // 1. 全ユーザーに対して非同期で相互フォロー判定を行い、[true, false, true...] のような配列を作る
