@@ -6,7 +6,7 @@ import { verifySession } from "@/utils/session";
 import { updateTag } from "next/cache";
 
 export async function createFollow(followingId: number) {
-    let followerId: number;
+    let followerId: string;
     try {
         const follower = await verifySession();
         if(!follower || !follower.userId) {
@@ -14,15 +14,25 @@ export async function createFollow(followingId: number) {
         }
         const followRepository = await getRepository(Follow);
 
-        followerId = Number(follower.userId)
+        followerId = follower.userId;
+
+        // 👇 ここに差し込みます（saveする直前）
+        console.log("--- 【デバッグ】新規フォロー処理データチェック ---");
+        console.log("followerId の値:", followerId, "型:", typeof followerId);
+        console.log("followingId の値:", followingId, "型:", typeof followingId);
+        if (isNaN(Number(followerId))) {
+            console.error("❌ エラー: followerId が NaN になっています！");
+        }
 
         const newFollow = followRepository.create({
-            followerId: followerId,
-            followingId: followingId,
+            followerId: Number(followerId),
+            followingId: Number(followingId),
         });
 
         await followRepository.save(newFollow);
-    } catch {
+    } catch (error) {
+        // catchでも念のためエラーをログに出す
+        console.error("catch内のエラー:", error);
         return { error: 'フォローの際にエラーが発生しました' };
     }
     updateTag("users")
