@@ -35,9 +35,9 @@ export async function createFollow(followingId: number) {
         console.error("catch内のエラー:", error);
         return { error: 'フォローの際にエラーが発生しました' };
     }
-    updateTag("users")
-    updateTag(`user-${followingId}`)
-    updateTag(`user-${followerId}`)
+    await updateTag("users")
+    await updateTag(`user-${followingId}`)
+    await updateTag(`user-${followerId}`)
 
 }
 
