@@ -3,7 +3,6 @@
 import { Follow } from "@/entities/Follow";
 import { getRepository } from "@/utils/data-source";
 import { verifySession } from "@/utils/session";
-import { getUser } from "./users";
 import { updateTag } from "next/cache";
 
 export async function createFollow(followingId: number) {
@@ -16,12 +15,10 @@ export async function createFollow(followingId: number) {
         const followRepository = await getRepository(Follow);
 
         followerId = Number(follower.userId)
-        const followerUser = await getUser(followerId)
-        const followingUser = await getUser(followingId)
 
         const newFollow = followRepository.create({
-            follower: followerUser,
-            following: followingUser
+            followerId: followerId,
+            followingId: followingId,
         });
 
         await followRepository.save(newFollow);
