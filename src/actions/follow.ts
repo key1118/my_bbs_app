@@ -24,7 +24,7 @@ export async function createFollow(followingId: number) {
             console.error("❌ エラー: followerId が NaN になっています！");
         }
 
-        await followRepository.save({
+        await followRepository.insert({
             followerId: Number(followerId),
             followingId: followingId,
         });
