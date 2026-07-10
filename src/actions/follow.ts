@@ -70,7 +70,8 @@ export async function deleteFollow(followingId: number) {
             followingId: Number(followingId)
         });
 
-    } catch {
+    } catch(err) {
+        console.error("フォロー処理でエラーが発生しました:", err);
         return { error: 'フォローの際にエラーが発生しました' };
     }
     updateTag("users")
