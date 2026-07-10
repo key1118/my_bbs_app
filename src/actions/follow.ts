@@ -24,12 +24,10 @@ export async function createFollow(followingId: number) {
             console.error("❌ エラー: followerId が NaN になっています！");
         }
 
-        const newFollow = followRepository.create({
+        await followRepository.save({
             followerId: Number(followerId),
-            followingId: Number(followingId),
+            followingId: followingId,
         });
-
-        await followRepository.save(newFollow);
     } catch (error) {
         // catchでも念のためエラーをログに出す
         console.error("catch内のエラー:", error);
