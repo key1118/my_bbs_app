@@ -2,18 +2,22 @@
 
 import { signup } from '@/actions/auth';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
+import Loader from '../Loader';
 
 export default function SignupPage() {
   const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async (formData: FormData) => {
     setError(null);
-    const result = await signup(formData);
+    startTransition(async () => {
+      const result = await signup(formData);
 
-    if (result && result.error) {
-      setError(result.error);
-    }
+      if (result && result.error) {
+        setError(result.error);
+      }
+    });
   };
 
   return (
@@ -63,15 +67,16 @@ export default function SignupPage() {
             />
           </div>
           {error && <p className='error-message'>{error}</p>}
-          <button
+          {isPending ? <Loader /> : <button
             type='submit'
             className='btn'
-            style={{ width: '100%', marginBottom: '15px' }}
+            style={{ color: "#fff", width: '100%', marginBottom: '15px' }}
           >
             登録する
           </button>
+          }
         </form>
-        <p style={{ textAlign: 'center', fontSize: '14px' }}>
+        <p style={{ color: "#333333d4", textAlign: 'center', fontSize: '14px' }}>
           すでにアカウントをお持ちですか？ <br />
           <Link href='/login' style={{ color: '#0070f3' }}>
             ログインはこちら

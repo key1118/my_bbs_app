@@ -2,10 +2,16 @@
   --primary-color: #0070f3;
   --primary-hover: #0056b3;
   --background-color: #f5f5f5;
-  --text-color: #333;
-  --card-bg: #fff;
+  --text-color: #333333d4;
+  --card-bg: #2a0808;
   --border-color: #ddd;
   --error-color: #e00;
+  --edit-color: #468449;
+  --follow-color: #E1306C;
+  --follow-hover: #ad2351;
+  --dm-color: #E1306C;
+  --dm-hover: #ad2351;
+  --follow-stop-color: ;
 }
 
 * {
@@ -15,10 +21,34 @@
 }
 
 body {
+  margin: 0;
   font-family: 'Helvetica Neue', Arial, sans-serif;
-  background-color: var(--background-color);
   color: var(--text-color);
   line-height: 1.6;
+  position: relative;
+  min-height: 100vh;
+  /* background: url('/images/7360833.jpg') */
+}
+
+/* bodyの裏側にぼかした画像を配置する */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  /* 文字やヘッダーより後ろに配置 */
+
+  /* 背景画像の設定 */
+  /* background: url('/images/magnific_MX2mQftDCm.png') center / cover no-repeat fixed transparent !important; */
+
+  /* 💡 ここでぼかしをコントロールします（数値が大きいほど強くぼやけます） */
+  filter: blur(5px);
+
+  /* ぼかしを入れると端っこが白く滲むのを防ぐため、少しだけ画像を大きくします */
+  transform: scale(1.05);
 }
 
 a {
@@ -32,6 +62,7 @@ a {
   margin: 0 auto;
   padding: 0 20px;
 }
+
 
 .btn {
   display: inline-block;
@@ -49,6 +80,22 @@ a {
   background-color: var(--primary-hover);
 }
 
+.btn-dm {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #d34473;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.btn-dm:hover {
+  background-color: var(--dm-hover);
+}
+
 .btn-danger {
   display: inline-block;
   padding: 10px 20px;
@@ -61,6 +108,45 @@ a {
   background-color: var(--error-color);
 }
 
+.btn-edit {
+  display: inline-block;
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  background-color: var(--edit-color);
+}
+
+.btn-follow {
+  display: inline-block;
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  background-color: var(--follow-color);
+}
+
+/* ★新しく追加：フォロー中のグレーのボタン */
+.btn-following {
+  display: inline-block;
+  /* 共通の形を維持 */
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s, color 0.2s;
+  background-color: #EFEFEF;
+  color: #000000;
+  /* 文字は黒（あるいは濃いグレー）に */
+}
+
 .form-group {
   margin-bottom: 20px;
 }
@@ -69,6 +155,7 @@ a {
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
+  color: var(--text-color);
 }
 
 .form-input,
@@ -86,7 +173,7 @@ a {
 }
 
 .card {
-  background-color: var(--card-bg);
+  background-color: var(--background-color);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -108,11 +195,12 @@ a {
 
 .post-title {
   margin-bottom: 10px;
-  font-size: 1.5em; /* Ensure good hierarchy */
+  font-size: 1.5em;
+  /* Ensure good hierarchy */
 }
 
 .post-title a {
-  color: var(--primary-color);
+  color: #666;
   text-decoration: none;
 }
 
@@ -133,5 +221,246 @@ a {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--text-color);
+  color: #666;
+}
+
+/* --- ドロップダウン全体の調整 --- */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* 「ユーザー」「投稿」の文字（ホバー時に少し浮かせる） */
+.nav-item {
+  color: #555;
+  /* 真っ黒じゃない優しいグレー */
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 0;
+  transition: color 0.2s ease;
+}
+
+.dropdown:hover .nav-item {
+  color: #ff7675;
+  /* ホバーした時にロゴと同じコーラルピンクに */
+}
+
+/* --- 下に出てくるメニューの見た目を可愛く --- */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  /* 💡 メニューを中央寄せにして見た目を綺麗に */
+
+  /* ほんのり透ける白背景と優しい影 */
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  min-width: 140px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  list-style: none;
+  padding: 8px 0;
+  margin-top: 8px;
+  /* 少しだけヘッダーとの間に隙間をあける */
+  border-radius: 12px;
+  /* 💡 角を丸くしてコロンとした形に */
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  /* うっすらとした枠線 */
+  z-index: 101;
+}
+
+/* メニュー内の各項目 */
+.dropdown-menu li {
+  padding: 0;
+  /* リンク側で余白を取るため0に */
+}
+
+.dropdown-menu li a {
+  color: #555;
+  /* 文字色を優しいグレーに */
+  text-decoration: none;
+  display: block;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* 💡 選択肢にマウスを乗せたときのパステルピンクの背景 */
+.dropdown-menu li:hover a {
+  background-color: #fff0f0;
+  /* 淡い桜色 */
+  color: #ff7675;
+  /* 文字もコーラルピンクに */
+}
+
+/* 最初の項目と最後の項目の角丸が削れないようにする対策 */
+.dropdown-menu li:first-child a {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.dropdown-menu li:last-child a {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* 親要素（.dropdown）にマウスが乗ったら表示 */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+
+/* メッセージリストの項目にマウスを乗せたとき */
+.message-list-item:hover {
+  background-color: #fff0f0 !important;
+  /* ドロップダウンと同じ淡い桜色 */
+  color: #ff7675 !important;
+  /* ロゴやナビホバーと同じコーラルピンク */
+  transform: translateY(-1px);
+  /* ほんの一ミリだけ上に浮き上がらせる */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+  /* 影を少し強くして立体感を出す */
+}
+
+/* メッセージの1行（外枠） */
+.message-row {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+  /* 画面幅いっぱいに広がらないように制限 */
+}
+
+/* 自分が送ったメッセージ（右寄せ） */
+.message-row.me {
+  align-self: flex-end;
+}
+
+.message-row.me .message-bubble {
+  background-color: #85e3a3;
+  /* 緑系の吹き出し */
+  color: #000;
+  border-radius: 16px 16px 0px 16px;
+  /* 右下だけ角を尖らせる */
+}
+
+/* 相手から届いたメッセージ（左寄せ） */
+.message-row.other {
+  align-self: flex-start;
+}
+
+.message-row.other .message-bubble {
+  background-color: #ffffff;
+  /* 白系の吹き出し */
+  color: #000;
+  border-radius: 16px 16px 16px 0px;
+  /* 左下だけ角を尖らせる */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 吹き出しの共通スタイル */
+.message-bubble {
+  padding: 10px 14px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-break: break-word;
+  /* 長いテキストの自動改行 */
+}
+
+.message-text {
+  margin: 0;
+}
+
+/* 相手の名前のスタイル */
+.message-user-name {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+  margin-left: 4px;
+}
+
+.no-messages {
+  text-align: center;
+  color: #999;
+  margin-top: 40px;
+}
+
+
+
+
+.send-button {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.send-icon {
+  width: 24px;
+  height: 24px;
+  fill: #007bff;
+  /* アイコンの色（お好みの色に変えてください。LINEっぽくするなら #06C755 など） */
+  transition: transform 0.1s ease;
+}
+
+/* マウスを乗せたときにちょっと動く演出（お好みで） */
+.send-button:hover .send-icon {
+  transform: scale(1.1);
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 60vh;
+  /* 💡 600px から 900px あたりに広げてみます */
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  width: 100%;
+  /* 横幅いっぱいに広がるのを許可 */
+}
+
+/* メッセージ履歴エリア：ここだけをスクロールさせる */
+.message-history {
+  flex: 1;
+  /* 残りの高さをすべてこれに割り当てる */
+  overflow-y: auto;
+  /* 溢れたらスクロール */
+  padding: 16px;
+  background: url("/images/magnific_a-peaceful-calm-ocean-bac_3GwYjAOREY.png") center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 入力エリア：常に一番下に固定 */
+.input-area {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: #ffffff;
+  border-top: 1px solid #e0e0e0;
+  gap: 8px;
+}
+
+/* 入力フォーム内のテキストエリアを横いっぱいに広げる */
+.input-area input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+}
+
+.reply-user-link:hover {
+  text-decoration: underline;
+  /* マウスを乗せたら下線を出す */
+  opacity: 0.8;
+  /* ほんのり薄くして「押せる感」を出す */
 }

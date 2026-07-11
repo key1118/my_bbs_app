@@ -6,8 +6,10 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import type { User } from './User';
+import { Reply } from './Reply';
 
 @Entity('post')
 export class Post {
@@ -19,6 +21,9 @@ export class Post {
 
   @Column('text')
   content!: string;
+
+  @Column({default: 0 })
+  goods!: number;
 
   @CreateDateColumn()
   createdAt!: Date;
@@ -32,4 +37,8 @@ export class Post {
 
   @Column()
   userId!: number;
+
+  @OneToMany('reply', (reply: Reply) => reply.post)
+  replies!: Reply[];
+
 }
