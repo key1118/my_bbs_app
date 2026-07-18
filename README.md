@@ -1,6 +1,7 @@
 ## 初めに
 
 - **制作者:** 小松慶太朗 (GitHub: [key1118](https://github.com/key1118))
+- **アプリURL:** https://my-bbs-fgxrwixa1-keitaro-komatsu-s-projects.vercel.app/ (こちらからご利用いただけます)
 - 本アプリのご利用に伴うトラブルに関して、一切の責任を負いかねます
 - 新規登録が面倒でしたらテストユーザーをご利用いただけます。
   (メールアドレス: test@example.com, パスワード: test)
