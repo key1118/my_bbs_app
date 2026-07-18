@@ -1,14 +1,15 @@
 'use client'
 
 import { createPost } from "@/actions/post";
+import Loader from "@/app/Loader";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 export default function CreatePostPage() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [error, setError] = useState<string | null>(null);
-
+    const [isPending, startTransition] = useTransition();
     const changeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value)
     }
@@ -19,11 +20,13 @@ export default function CreatePostPage() {
 
     const handleSubmit = async (formData: FormData) => {
         setError(null);
-        const result = await createPost(formData);
-        if (result && result.error) {
-            console.log(result.error);
-            setError(result.error);
-        }
+        startTransition(async () => {
+            const result = await createPost(formData);
+            if (result && result.error) {
+                console.log(result.error);
+                setError(result.error);
+            }
+        })
     }
 
     return (
@@ -39,7 +42,7 @@ export default function CreatePostPage() {
                 &larr; 投稿一覧に戻る
             </Link>
             <div className='card'>
-                <h2 style={{marginBottom: '20px' }}>新規投稿</h2>
+                <h2 style={{ marginBottom: '20px' }}>新規投稿</h2>
                 <form action={handleSubmit}>
                     <div className='form-group'>
                         <label className='form-label' htmlFor='title'>
@@ -69,9 +72,11 @@ export default function CreatePostPage() {
                         ></textarea>
                     </div>
                     {error && <p className='error-message'>{error}</p>}
-                    <button type='submit' className='btn'>
-                        投稿
-                    </button>
+                    {isPending ? <Loader /> :
+                        <button type='submit' className='btn'>
+                            投稿
+                        </button>
+                    }
                 </form>
             </div>
         </div>

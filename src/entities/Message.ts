@@ -1,4 +1,4 @@
-// entities/Like.ts
+// entities/Message.ts
 import { Entity, PrimaryGeneratedColumn, Column, Unique, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
 import { User } from "./User";
 

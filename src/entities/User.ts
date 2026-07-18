@@ -74,6 +74,6 @@ export class User {
   @OneToMany('message', (message: Message) => message.receiver)
   receivedMessages!: Message[];
 
-  @OneToMany('reply', (reply: Reply) => reply.post)
+  @OneToMany('reply', (reply: Reply) => reply.user)
   replies!: Reply[];
 }

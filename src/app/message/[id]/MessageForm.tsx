@@ -122,7 +122,7 @@ export default function MessageForm({ receiverId, senderId }: { receiverId: numb
                     // 💡 setMessages(prev => [...]) を使うことで、クロージャ問題を回避し、
                     // 過去のメッセージを残したまま、末尾に最新の1件を追加できます。
                     setMessages(prev => {
-                        // 重複追加を防ぐための安全弁（念のため）
+                        // 重複追加を防ぐための確認（念のため）
                         if (prev.some(m => m.id === newMessage.id)) return prev;
                         return [...prev, newMessage];
                     });

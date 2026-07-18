@@ -21,14 +21,14 @@ export class Reply {
   createdAt!: Date;
 
 
-  @ManyToOne('user', (user: User) => user.replies)
+  @ManyToOne('user', (user: User) => user.replies, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user!: User;
 
   @Column()
   userId!: number;
 
-@ManyToOne('post', (post: Post) => post.replies)
+@ManyToOne('post', (post: Post) => post.replies, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'postId' })
   post!: Post;
 
