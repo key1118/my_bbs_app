@@ -1,18 +1,23 @@
 'use client'
 
 import { editPost } from "@/actions/post";
+import Loader from "@/app/Loader";
 import { Post } from "@/entities/Post";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
-export default function EditDetail({post}: {post: Post}) {
+export default function EditDetail({ post }: { post: Post }) {
     const [error, setError] = useState<string | null>(null);
+    const [isPending, startTransition] = useTransition();
+
 
     const handleSubmit = async (formData: FormData) => {
         setError(null);
-        const result = await editPost(post.id, formData);
-        if (result && result.error) {
-            setError(result.error);
-        }
+        startTransition(async () => {
+            const result = await editPost(post.id, formData);
+            if (result && result.error) {
+                setError(result.error);
+            }
+        })
     };
     return (
         <div className='card'>
@@ -32,6 +37,7 @@ export default function EditDetail({post}: {post: Post}) {
                         defaultValue={post?.title || ""}
                         // 💡 useEffectで後からデータが入った時に再描画させるための工夫
                         key={post.id}
+                        required
                     />
                 </div>
                 <div className='form-group'>
@@ -45,12 +51,15 @@ export default function EditDetail({post}: {post: Post}) {
                         placeholder='本文を入力'
                         defaultValue={post?.content || ""}
                         key={post?.content || "content-empty"}
+                        required
                     ></textarea>
                 </div>
                 {error && <p className='error-message'>{error}</p>}
-                <button type='submit' className='btn'>
-                    編集完了
-                </button>
+                {isPending ? <Loader /> :
+                    <button type='submit' className='btn'>
+                        編集完了
+                    </button>
+                }
             </form>
         </div>
     )

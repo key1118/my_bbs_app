@@ -32,7 +32,7 @@ async function ChatRoomContent({ params }: Props) {
     }
     const senderId = Number(session.userId);
 
-    //相互フォローかチェック
+    //相互フォローかチェック(相互フォローでなければ、プロフィールの詳細画面にリダイレクト)
     const result = await isMutualFollow(receiverId);
     if(!result) {
         redirect(`/profile/${receiverId}`);
