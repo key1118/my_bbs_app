@@ -126,7 +126,7 @@ React / TypeScriptのインプット後、さらなる技術力向上と自走�
 ## ER図
 
 ER図の作成には**dbdiagram.io**というWebサービスを使いました。作成されたER図は以下のようになります。
-![ER Diagram](./docs/myER.png)
+![ER Diagram](./docs/MyER.png)
 
 ## 実装した機能
 
